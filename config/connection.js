@@ -1,13 +1,29 @@
 // Set up MySQL connection.
 var mysql = require("mysql");
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  port: 8889,
-  user: "root",
-  password: "root",
-  database: "burgers_db"
-});
+// var connection = mysql.createConnection({
+//   host: "localhost",
+//   port: 8889,
+//   user: "root",
+//   password: "root",
+//   database: "burgers_db"
+// });
+if (process.env.JAWSDB_URL) {
+  //Heroku deployment
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
+}
+
+else {
+  //else use localhost database for local development.
+  //MySQL password is passed into connection.js from the .env file using the dotenv npm package.
+  var connection = mysql.createConnection({
+    host: "localhost",
+    port: 8889,
+    user: "root",
+    password: process.env.MYSQL_PASSWORD,
+    database: "burger_db"
+  });
+}
 
 // Make connection.
 connection.connect(function(err) {
